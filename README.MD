@@ -36,7 +36,7 @@ net.ipv4.ip_forward = 1
 ## 参考
 1. [kubeadm实现细节](https://kubernetes.io/zh-cn/docs/reference/setup-tools/kubeadm/implementation-details/)
 2. [彻底搞懂 kube-proxy IPVS 模式的工作](https://cloud.tencent.com/developer/article/1832918)
-3. [bridge cni](https://www.cni.dev/plugins/current/main/bridge/)
+3. [Linux 虚拟网卡技术：Macvlan](https://icloudnative.io/posts/netwnetwork-virtualization-macvlan/)
 4. [重学容器01: Docker、Containerd、Kubernetes之间的渊源](https://blog.frognew.com/2021/04/relearning-container-01.html)
 5. [重学容器03: 使用CNI为Containerd容器添加网络能力](https://blog.frognew.com/2021/04/relearning-container-03.html)
 
