@@ -1,0 +1,4 @@
+etc/kubernetes
+build_all.sh
+main/vendor
+main/go.sum
