@@ -1,6 +1,11 @@
 # k8s smooth way
 
-模仿 kubeadm 的思路创建一个单节点 k8s 集群, kube-proxy 使用的是 ipvs 模式,cni 插件使用 bridge
+## 简介
+
+模仿 kubeadm 的思路创建一个单节点 k8s 集群
+kube-proxy 使用的是 ipvs 模式
+cni 插件使用的是 bridge
+因为cni用的是bridge 而且ipam用的是host-local 所以不支持跨界点pod间通信
 
 ## 先决条件
 
