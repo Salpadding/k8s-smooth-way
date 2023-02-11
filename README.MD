@@ -9,8 +9,11 @@
 3. sysctl 开启以下配置
 
 net.bridge.bridge-nf-call-iptables=1
+
 net.ipv4.vs.conntrack=1
+
 net.ipv4.ip_forward = 1
+
 
 
 ## 安装细节
@@ -25,5 +28,10 @@ net.ipv4.ip_forward = 1
 6.  使用 daemon set 部署 kube-proxy
 7. 使用 deployment 的方式部署 coredns
 
-
+## 参考
+1. [kubeadm实现细节](https://kubernetes.io/zh-cn/docs/reference/setup-tools/kubeadm/implementation-details/)
+2. [彻底搞懂 kube-proxy IPVS 模式的工作](https://cloud.tencent.com/developer/article/1832918)
+3. [bridge cni](https://www.cni.dev/plugins/current/main/bridge/)
+4. [重学容器01: Docker、Containerd、Kubernetes之间的渊源](https://blog.frognew.com/2021/04/relearning-container-01.html)
+5. [重学容器03: 使用CNI为Containerd容器添加网络能力](https://blog.frognew.com/2021/04/relearning-container-03.html)
 
