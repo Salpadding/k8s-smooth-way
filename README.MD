@@ -3,13 +3,14 @@
 ## 简介
 
 模仿 kubeadm 的思路创建一个单节点 k8s 集群
+操作系统是 arch linux
 kube-proxy 使用的是 ipvs 模式
 cni 插件使用的是 bridge
 因为cni用的是bridge 而且ipam用的是host-local 所以不支持跨界点pod间通信
 
 ## 先决条件
 
-1. 安装好 containerd, 设置好一些基础的 cni plugins
+1. 安装好 crio, 设置好一些基础的 cni plugins
 2. 内核开启 ip_vs 相关模块
 3. sysctl 开启以下配置
 
@@ -39,4 +40,5 @@ net.ipv4.ip_forward = 1
 3. [Linux 虚拟网卡技术：Macvlan](https://icloudnative.io/posts/netwnetwork-virtualization-macvlan/)
 4. [重学容器01: Docker、Containerd、Kubernetes之间的渊源](https://blog.frognew.com/2021/04/relearning-container-01.html)
 5. [重学容器03: 使用CNI为Containerd容器添加网络能力](https://blog.frognew.com/2021/04/relearning-container-03.html)
+6. [crio的arch wiki](https://wiki.archlinux.org/title/CRI-O)
 

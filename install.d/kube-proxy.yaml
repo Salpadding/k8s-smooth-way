@@ -122,11 +122,9 @@ spec:
         name: kube-proxy
         resources:
             requests:
-                cpu: "10m"
                 memory: "16Mi"
             limits:
-                cpu: "1000m"
-                memory: "1024Mi"
+                memory: "2048Mi"
         securityContext:
           privileged: true
         volumeMounts:

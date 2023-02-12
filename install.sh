@@ -2,8 +2,12 @@
 
 SERVICE_CIDR=10.96.0.0/12
 POD_CIDR=10.64.0.0/16
-rm -rf /var/lib/cni/networks
-mkdir -p /var/lib/cni/networks
+rm -rf /var/lib/cni
+mkdir -p /var/lib/cni
+
+# 目前kubelet表现非常不稳定
+# etcd 和 api server 用 systemd 安装
+INSTALL_TYPE=systemd
 
 cur=`dirname $0`
 cur=`cd $cur; pwd`
@@ -19,7 +23,11 @@ popd
 
 # 停止 kubelet
 systemctl stop kubelet
+systemctl stop kube-apiserver
+systemctl stop etcd
 systemctl disable kubelet
+systemctl disable kube-apiserver
+systemctl disable etcd
 
 if [[ -n `crictl pods | sed 1d` ]]; then
     crictl pods | sed 1d | awk '{print $1}' | xargs crictl stopp
@@ -35,22 +43,32 @@ mkdir -p /etc/kubernetes/ /var/lib/kubelet/ /etc/kubernetes/manifests /var/lib/e
 ### 配置 CNI
 rm -rf /etc/cni/net.d
 mkdir -p /etc/cni/net.d
-cat <<EOF > /etc/cni/net.d/10-bridge.conf
+cat <<EOF > /etc/cni/net.d/11-crio-ipv4-bridge.conflist
 {
-    "cniVersion": "0.3.1",
-    "name": "bridge",
-    "type": "bridge",
-    "bridge": "cni0",
-    "isDefaultGateway": true,
-    "forceAddress": false,
-    "ipMasq": true,
-    "hairpinMode": true,
-    "ipam": {
+  "cniVersion": "0.3.1",
+  "name": "crio",
+  "plugins": [
+    {
+      "type": "bridge",
+      "bridge": "cni0",
+      "isGateway": true,
+      "ipMasq": true,
+      "hairpinMode": true,
+      "ipam": {
         "type": "host-local",
-        "subnet": "10.64.0.0/16"
+        "routes": [
+            { "dst": "0.0.0.0/0" }
+        ],
+        "ranges": [
+            [{ "subnet": "10.64.0.0/16" }]
+        ]
+      }
     }
+  ]
 }
 EOF
+
+systemctl restart crio
 
 # etcd 静态 pod 配置
 # 静态 pod 配置建议把 resources.limit.memory 设置大一些
@@ -79,13 +97,22 @@ rsync -azv "${cur}/var/lib/kubelet/" /var/lib/kubelet/
 
 # 启动 kubelet
 systemctl daemon-reload
-systemctl start kubelet
-
+if [[ "${INSTALL_TYPE}" == systemd ]]; then
+    systemctl start etcd
+    systemctl start kube-apiserver
+    systemctl enable etcd
+    systemctl enable kube-apiserver
+fi
 
 # 等待 api server 启动 创建 node-proxiers 组
 while ! curl -k https://localhost:6443/healthz >/dev/null 2>&1; do
     sleep 1
 done
+
+systemctl start kubelet
+systemctl enable kubelet
+
+
 
 export KUBECONFIG="${cur}/etc/kubernetes/admin.conf"
 

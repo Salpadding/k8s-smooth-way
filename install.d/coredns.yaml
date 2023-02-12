@@ -151,10 +151,9 @@ spec:
             scheme: HTTP
         resources:
           requests:
-            cpu: "10m"
             memory: "16Mi"
           limits:
-            memory: 1024Mi
+            memory: 2048Mi
         securityContext:
           allowPrivilegeEscalation: false
           capabilities:

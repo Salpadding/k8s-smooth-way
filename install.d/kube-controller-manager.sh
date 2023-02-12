@@ -9,6 +9,7 @@ metadata:
   name: kube-controller-manager
   namespace: kube-system
 spec:
+  restartPolicy: Never
   containers:
   - command:
     - kube-controller-manager
@@ -30,11 +31,9 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
         requests:
-            cpu: "10m"
             memory: "16Mi"
         limits:
-            cpu: "1000m"
-            memory: "1024Mi"
+            memory: "2048Mi"
     livenessProbe:
       failureThreshold: 8
       httpGet:

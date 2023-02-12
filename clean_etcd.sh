@@ -15,13 +15,13 @@ if [[ -n `crictl pods | sed 1d` ]]; then
 fi
 crictl pods
 
-systemctl stop containerd
+#systemctl stop containerd
 rm -rf /var/lib/cni/*
 rm -rf /default.etcd /var/lib/etcd /var/lib/kube-proxy
 mkdir /var/lib/etcd /var/lib/kube-proxy
 
 
-systemctl start containerd
+#systemctl start containerd
 systemctl start kubelet
 
 

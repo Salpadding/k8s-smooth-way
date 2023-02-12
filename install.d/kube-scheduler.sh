@@ -9,6 +9,7 @@ metadata:
   name: kube-scheduler
   namespace: kube-system
 spec:
+  restartPolicy: Never
   containers:
   - command:
     - kube-scheduler
@@ -21,11 +22,9 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
         requests:
-            cpu: "10m"
             memory: "16Mi"
         limits:
-            cpu: "1000m"
-            memory: "1024Mi"
+            memory: "2048Mi"
     livenessProbe:
       failureThreshold: 8
       httpGet:

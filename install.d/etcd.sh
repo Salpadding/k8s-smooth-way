@@ -1,3 +1,39 @@
+if [[ "${INSTALL_TYPE}" == systemd ]]; then
+cat <<EOF > /etc/systemd/system/etcd.service
+[Unit]
+Description=etcd
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=/home/arch/workspace/common_utils/k8s-hard-way/downloads/etcd-v3.5.7-linux-amd64/etcd \\
+    --advertise-client-urls=https://${LAN_IP}:2379 \\
+    --cert-file=/etc/kubernetes/pki/etcd/all.crt \\
+    --client-cert-auth=true \\
+    --data-dir=/var/lib/etcd \\
+    --experimental-initial-corrupt-check=true \\
+    --experimental-watch-progress-notify-interval=5s \\
+    --initial-advertise-peer-urls=https://${LAN_IP}:2380 \\
+    --initial-cluster=$(hostname)=https://${LAN_IP}:2380 \\
+    --key-file=/etc/kubernetes/pki/etcd/all.key \\
+    --listen-client-urls=https://127.0.0.1:2379,https://${LAN_IP}:2379 \\
+    --listen-metrics-urls=http://127.0.0.1:2381 \\
+    --listen-peer-urls=https://${LAN_IP}:2380 \\
+    --name=$(hostname) \\
+    --peer-cert-file=/etc/kubernetes/pki/etcd/all.crt \\
+    --peer-client-cert-auth=true \\
+    --peer-key-file=/etc/kubernetes/pki/etcd/all.key \\
+    --peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt \\
+    --snapshot-count=10000 \\
+    --trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+Restart=always
+StartLimitInterval=0
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+else
 cat <<EOF > "${cur}/etc/kubernetes/manifests/etcd.yaml"
 apiVersion: v1
 kind: Pod
@@ -12,6 +48,7 @@ metadata:
   namespace: kube-system
 spec:
   containers:
+  restartPolicy: Never
   - command:
     - etcd
     - --advertise-client-urls=https://${LAN_IP}:2379
@@ -37,11 +74,9 @@ spec:
     imagePullPolicy: IfNotPresent
     resources:
         requests:
-            cpu: "10m"
             memory: "16Mi"
         limits:
-            cpu: "1000m"
-            memory: "1024Mi"
+            memory: "2048Mi"
     readinessProbe:
       failureThreshold: 3
       httpGet:
@@ -93,3 +128,4 @@ spec:
     name: etcd-data
 status: {}
 EOF
+fi
