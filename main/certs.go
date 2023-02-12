@@ -488,6 +488,7 @@ func GenCerts() error {
 }
 
 func main() {
+    var err error
 	if len(os.Args) < 2 {
 		return
 	}
@@ -506,6 +507,13 @@ func main() {
 		}
 		return
 	}
+
+    if os.Args[1] == "config" {
+		if err = GenKubeConfig(); err != nil {
+			panic(err)
+		}
+        return
+    }
 
 	// 生成 etcd 配置 /etc/kubernetes/manifests
 	if os.Args[1] == "etcd" {

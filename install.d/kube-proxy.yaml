@@ -121,6 +121,9 @@ spec:
         imagePullPolicy: IfNotPresent
         name: kube-proxy
         resources:
+            requests:
+                cpu: "10m"
+                memory: "16Mi"
             limits:
                 cpu: "1000m"
                 memory: "1024Mi"

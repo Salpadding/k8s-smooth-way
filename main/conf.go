@@ -32,10 +32,12 @@ func getKubeConfigSpecs() []KubeConfigSpec {
 		},
 		{
 			ClientName: "system:kube-controller-manager",
+			Organizations: []string{"system:kube-controller-manager"},
 			FileName:   "controller-manager.conf",
 		},
 		{
 			ClientName: "system:kube-scheduler",
+			Organizations: []string{"system:kube-scheduler"},
 			FileName:   "scheduler.conf",
 		},
 		{

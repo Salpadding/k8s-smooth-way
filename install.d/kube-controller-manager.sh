@@ -29,6 +29,9 @@ spec:
     image: registry.k8s.io/kube-controller-manager:v1.26.1
     imagePullPolicy: IfNotPresent
     resources:
+        requests:
+            cpu: "10m"
+            memory: "16Mi"
         limits:
             cpu: "1000m"
             memory: "1024Mi"

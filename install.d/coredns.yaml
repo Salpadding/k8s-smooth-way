@@ -150,6 +150,9 @@ spec:
             port: 8181
             scheme: HTTP
         resources:
+          requests:
+            cpu: "10m"
+            memory: "16Mi"
           limits:
             memory: 1024Mi
         securityContext:

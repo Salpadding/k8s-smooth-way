@@ -36,6 +36,9 @@ spec:
     image: registry.k8s.io/etcd:3.5.6-0
     imagePullPolicy: IfNotPresent
     resources:
+        requests:
+            cpu: "10m"
+            memory: "16Mi"
         limits:
             cpu: "1000m"
             memory: "1024Mi"
