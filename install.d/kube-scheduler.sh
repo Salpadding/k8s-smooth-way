@@ -9,7 +9,6 @@ metadata:
   name: kube-scheduler
   namespace: kube-system
 spec:
-  restartPolicy: Never
   containers:
   - command:
     - kube-scheduler

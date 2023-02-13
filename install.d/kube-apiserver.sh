@@ -22,7 +22,7 @@ ExecStart=/home/arch/bin/kube-apiserver \\
     --service-account-issuer=https://kubernetes.default.svc.cluster.local \\
     --service-account-key-file=/etc/kubernetes/pki/sa.pub \\
     --service-account-signing-key-file=/etc/kubernetes/pki/sa.key \\
-    --service-cluster-ip-range=10.96.0.0/12 \\
+    --service-cluster-ip-range=${SERVICE_CIDR} \\
     --tls-cert-file=/etc/kubernetes/pki/apiserver.crt \\
     --tls-private-key-file=/etc/kubernetes/pki/apiserver.key \\
     --proxy-client-cert-file=/etc/kubernetes/pki/front-proxy-client.crt \\
@@ -54,7 +54,6 @@ metadata:
   namespace: kube-system
 spec:
   containers:
-  restartPolicy: Never
   - command:
     - kube-apiserver
     - --bind-address=0.0.0.0
@@ -82,7 +81,7 @@ spec:
     - --service-account-issuer=https://kubernetes.default.svc.cluster.local
     - --service-account-key-file=/etc/kubernetes/pki/sa.pub
     - --service-account-signing-key-file=/etc/kubernetes/pki/sa.key
-    - --service-cluster-ip-range=10.96.0.0/12
+    - --service-cluster-ip-range=${SERVICE_CIDR}
     - --tls-cert-file=/etc/kubernetes/pki/apiserver.crt
     - --tls-private-key-file=/etc/kubernetes/pki/apiserver.key
     image: registry.k8s.io/kube-apiserver:v1.26.1

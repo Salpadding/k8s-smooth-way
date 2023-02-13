@@ -32,7 +32,7 @@ data:
       #contentType: ""
       kubeconfig: /var/lib/kube-proxy/kubeconfig.conf
         #qps: 0
-    clusterCIDR: ""
+    clusterCIDR: "CLUSTER_CIDR"
     configSyncPeriod: 5s
     conntrack:
       #maxPerCore: 0

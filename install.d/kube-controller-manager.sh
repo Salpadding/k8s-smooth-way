@@ -9,7 +9,6 @@ metadata:
   name: kube-controller-manager
   namespace: kube-system
 spec:
-  restartPolicy: Never
   containers:
   - command:
     - kube-controller-manager

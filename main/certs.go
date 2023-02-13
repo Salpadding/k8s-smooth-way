@@ -43,7 +43,7 @@ const (
 var (
 	LanIP       net.IP
 	LoopIP      = net.IPv4(127, 0, 0, 1)
-	ServiceIP   = net.IPv4(10, 96, 0, 1)
+	ServiceIP   net.IP
 	ApiServer   string
 	ClusterName = "kubernetes"
     HostName string

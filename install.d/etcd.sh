@@ -48,7 +48,6 @@ metadata:
   namespace: kube-system
 spec:
   containers:
-  restartPolicy: Never
   - command:
     - etcd
     - --advertise-client-urls=https://${LAN_IP}:2379
