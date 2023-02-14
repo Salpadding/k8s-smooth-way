@@ -12,7 +12,7 @@ cur=`dirname $0`
 cur=`cd $cur; pwd`
 
 # api server/etcd 建议用 systemd 部署
-INSTALL_TYPE=systemd
+# INSTALL_TYPE=systemd
 
 export ROOT_DIR="${cur}"
 pushd "${cur}/main"

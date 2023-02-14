@@ -14,11 +14,15 @@ cni 插件使用的是 bridge
 2. 内核开启 ip_vs 相关模块
 3. sysctl 开启以下配置
 
+```sh
 net.bridge.bridge-nf-call-iptables=1
 
 net.ipv4.vs.conntrack=1
 
 net.ipv4.ip_forward = 1
+```
+
+4. 安装好 kubectl kubelet curl
 
 
 
